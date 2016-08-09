@@ -34,7 +34,6 @@
 // ADC
 #define ADCSequencer 3  // One measurement
 uint32_t ui32ADC0Value;
-//uint32_t ui32Load;
 
 // PID
 PIDdata PIDdataLightFlow;
@@ -59,21 +58,17 @@ void main(void) {
 
 
 void initTask(void) {
-	SysCtlClockSet(SYSCTL_SYSDIV_5 | SYSCTL_USE_PLL | SYSCTL_OSC_MAIN | SYSCTL_XTAL_16MHZ);
-//	SysCtlClockSet(SYSCTL_SYSDIV_10 | SYSCTL_USE_PLL | SYSCTL_OSC_MAIN | SYSCTL_XTAL_16MHZ);
+    SysCtlClockSet(SYSCTL_SYSDIV_5 | SYSCTL_USE_PLL | SYSCTL_OSC_MAIN | SYSCTL_XTAL_16MHZ);
 
-//    FPULazyStackingEnable();
     FPUEnable();
-//    ValueToPWM = 0.0f;
 
 //    // LED
 //    SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOF);
-//	GPIOPinTypeGPIOOutput(GPIO_PORTF_BASE, LED);
-//	GPIOPinWrite(GPIO_PORTF_BASE, LED, 0);
+//    GPIOPinTypeGPIOOutput(GPIO_PORTF_BASE, LED);
+//    GPIOPinWrite(GPIO_PORTF_BASE, LED, 0);
 
 	// PWM configuration (PD0)
 	SysCtlPWMClockSet(SYSCTL_PWMDIV_16);
-//	SysCtlPWMClockSet(SYSCTL_PWMDIV_8);
 	SysCtlPeripheralEnable(SYSCTL_PERIPH_PWM1);
 	while (!SysCtlPeripheralReady(SYSCTL_PERIPH_PWM1)) {}
 	SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOD);
@@ -82,8 +77,6 @@ void initTask(void) {
 	PWMGenConfigure(PWM1_BASE, PWM_GEN_0, PWM_GEN_MODE_UP_DOWN|PWM_GEN_MODE_NO_SYNC);
 	PWMOutputInvert(PWM1_BASE, PWM_OUT_0_BIT, true);
 	PWMGenPeriodSet(PWM1_BASE, PWM_GEN_0, (((SysCtlClockGet()/128)/PWM_FREQUENCY)*2)-1);
-//	ui32Load = ((SysCtlClockGet()/8)/PWM_FREQUENCY);
-//	PWMGenPeriodSet(PWM1_BASE, PWM_GEN_0, ui32Load-1);
 
 	// ADC configuration (PE3)
 	SysCtlPeripheralEnable(SYSCTL_PERIPH_ADC0);
@@ -141,8 +134,6 @@ void initTask(void) {
 
 void UDPserverTask(void) {
 
-//	GPIOPinWrite(GPIO_PORTF_BASE, LED, (1<<1));
-
     char str[STR_SIZE], ErrMIN[10], ErrMAX[10];
 	uint16_t plen;  // , dat_p;
 	uint8_t buf[BUFFER_SIZE+1];
@@ -152,7 +143,6 @@ void UDPserverTask(void) {
         plen = enc28j60PacketReceive(BUFFER_SIZE, buf);
 
         // Process ping request
-//        dat_p = packetloop_arp_icmp_tcp(buf, plen);
         packetloop_arp_icmp_tcp(buf, plen);
 
         // If protocol is IP and IP-address is mine...
@@ -249,38 +239,7 @@ void ADCHwi(void) {
 	ADCIntClear(ADC0_BASE, ADCSequencer);
 	ADCSequenceDataGet(ADC0_BASE, ADCSequencer, &ui32ADC0Value);
 
-//	static uint32_t cnt=0;
-
 	ValueToPWM = PID_Update(&PIDdataLightFlow, Goal, (float)ui32ADC0Value);
 
-//	if (ui32ADC0Value<=2916) {
-//		ValueToPWM = 4095.0f;
-//	}
-//	if (ui32ADC0Value>=2500) {
-//		ValueToPWM = ValueToPWM + 12000.0f;
-//		cnt = cnt + 1;
-//	}
-//
-//	if (cnt == 5000) {
-//		cnt = 0;
-//		PID_setlimitsPerr(&PIDdataLightFlow, -100.0f, 100.0f);
-//	}
-
-//	if (ValueToPWM > 4095.0f)
-//		ValueToPWM = 4095.0f;
-
-//	ValueToPWM = 200;
-
 	PWMPulseWidthSet(PWM1_BASE, PWM_OUT_0, (uint32_t)((SysCtlClockGet()/16/PWM_FREQUENCY)*(ValueToPWM)/4095));
-//	uint32_t ui32NewPulseWidth;
-//	ui32NewPulseWidth = (float)ui32Load*(1.0-(ValueToPWM/4095.0)/2.0);
-//	UARTprintf("%d\n", ui32NewPulseWidth);
-//	PWMPulseWidthSet(PWM1_BASE, PWM_OUT_0, (uint32_t)((float)ui32Load*(ValueToPWM/4095.0)-1));
-//	cnt = cnt + 1;
-//	if (cnt == 250) {
-//		UARTprintf("Pos: %d\n", (uint32_t)((float)ui32Load*(ValueToPWM/4095.0)-1));
-////		UARTprintf("Pos: %d\n", (uint16_t)((SysCtlClockGet()/16/PWM_FREQUENCY)*(ValueToPWM)/4095));
-//		UARTprintf("PWG: %d\n", PWMPulseWidthGet(PWM1_BASE, PWM_OUT_0));
-//		cnt = 0;
-//	}
 }
