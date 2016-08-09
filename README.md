@@ -1,2 +1,2 @@
 # maglev
-magnetic levitator on the base of TIVA-C MCU
+Magnetic levitator on the base of TIVA-C MCU.
