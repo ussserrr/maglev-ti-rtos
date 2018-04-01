@@ -1,7 +1,8 @@
-# maglev
+# maglev-ti-rtos
+Example of PID controller usage applied to magnetic levitation.
 
 ## Overview
-Magnetic levitator on the base of Texas Instruments TIVA-C TM4C123GH6PM ARM Cortex-M4F MCU (EK-TM4C123GXL board). Regulation is performed by PID algorythm. Remote monitoring and control is provided by external Ethernet controller chip Microchip ENC28J60 (UDP commands).
+Magnetic levitator on the base of Texas Instruments TIVA-C TM4C123GH6PM ARM Cortex-M4F MCU (EK-TM4C123GXL board). Regulation is performed by PID algorithm. Remote monitoring and control is provided by external Ethernet controller chip Microchip ENC28J60 (UDP commands).
 
 ## Software
 ### MCU firmware (server)
@@ -16,7 +17,7 @@ Generally, have been used the approach of dynamic creation/deletion of threads t
 For remote control have been used ported from AVR lightweight driver and network stack for ENC28J60.
 
 ### PC/Mac client
-See
+For remote control client see [maglev-client](https://github.com/ussserrr/maglev-client) (Python-based).
 
 ## Installation
 Due to not always proper work of TI CCS (Code Composer Studio) (exporting/importing projects) this repository is just set of necessary files. It's recommended to create brand new clean TI-RTOS project and simply put all these files (except `.cfg` one) into it. You better manually set tasks and SYS/BIOS parameters.
@@ -24,6 +25,9 @@ There are 2 available build configurations: Debug and Release. Besides obvious c
 
 ## Known issues
 Besides probably not ideal SW architecture :), there is a strange behavior of PWM module. All current values of registers indicate that levitation shouldn't actually work, but it does. See forward to understand this fact.
+
+## Hardware
+For schematic and PCB see [maglev-hardware](https://github.com/ussserrr/maglev-hardware) (KiCad EDA).
 
 ## Copyright
 All third-party software components (ip_arp_udp_tcp stack, enc28j60 driver and so on) belongs to their authors.
