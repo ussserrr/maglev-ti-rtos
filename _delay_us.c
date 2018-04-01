@@ -3,10 +3,13 @@
  *
  *  Created on: 28 apr. 2016
  *      Author: Andrey Chufyrev
+ *
+ *  Description: not accurate delay function
  */
 
 #include "_delay_us.h"
 
+
 void _delay_us(uint32_t us) {
-	SysCtlDelay(SysCtlClockGet()/3000000*us);
+	ROM_SysCtlDelay(SysCtlClockGet()/3000000*us);
 }

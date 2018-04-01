@@ -26,7 +26,7 @@
 #include "driverlib/ssi.h"
 #include "driverlib/gpio.h"
 
-#include "utils/uartstdio.h"
+//#include "utils/uartstdio.h"
 
 // ENC28J60 Control Registers
 // Control register definitions are a combination of address,

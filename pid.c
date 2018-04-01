@@ -2,6 +2,8 @@
 
 
 void PID_Init(ptrPIDdata pPd) {
+    pPd->setpoint = 0.0f;
+
 	pPd->Kp = 0.0f;
 	pPd->Ki = 0.0f;
 	pPd->Kd = 0.0f;
@@ -19,7 +21,9 @@ void PID_Init(ptrPIDdata pPd) {
 /*
  * set pid terms
  */
-void PID_SetPID(ptrPIDdata pPd, float pidP, float pidI, float pidD) {
+void PID_SetPID(ptrPIDdata pPd, float setpoint, float pidP, float pidI, float pidD) {
+    pPd->setpoint = setpoint;
+
 	pPd->Kp = pidP;
 	pPd->Ki = pidI;
 	pPd->Kd = pidD;
@@ -55,13 +59,13 @@ void PID_ResetIerr(ptrPIDdata pPd) {
 /*
  * pid control algorithm
  */
-float PID_Update(ptrPIDdata pPd, float setpoint, float input) {
+float PID_Update(ptrPIDdata pPd, float input) {
 	//if this function get called always at the same period, dt = 1 can be used
 	//otherwise dt should be calculated
 	static float inputprev = 0;
 
 	//compute P error
-	pPd->Perr = setpoint - input;
+	pPd->Perr = pPd->setpoint - input;
 	if (pPd->Perr < pPd->Perrmin)
 		pPd->Perr = pPd->Perrmin;
 	else if (pPd->Perr > pPd->Perrmax)
@@ -79,11 +83,6 @@ float PID_Update(ptrPIDdata pPd, float setpoint, float input) {
 
 	//record last value
 	inputprev = input;
-
-//	//compute output
-//	float output = (pPd->Kp*pPd->Perr) + (pPd->Ki*pPd->Ierr) + (pPd->Kd*pPd->Derr);
-//
-//	return output;
 
 	return ((pPd->Kp*pPd->Perr) + (pPd->Ki*pPd->Ierr) + (pPd->Kd*pPd->Derr));
 }
