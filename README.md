@@ -6,6 +6,14 @@ Example of PID controller usage applied to magnetic levitation.
 ## Overview
 Magnetic levitator on the base of Texas Instruments TIVA-C TM4C123GH6PM ARM Cortex-M4F MCU (EK-TM4C123GXL board). Regulation is performed by PID algorithm. Remote monitoring and control is provided by external Ethernet controller chip Microchip ENC28J60 (UDP commands).
 
+## Theory
+In terms of control systems' general theory there're 4 main components: object under control; actuators and drivers; controller itself; feedback loop. Applied to this magnetic levitation system, these components are:
+  - Object: permanent magnet
+  - Driver: electromagnet, schematic plus PWM (see [maglev-hardware](https://github.com/ussserrr/maglev-hardware))
+  - Controller: PID algorithm executed by the MCU
+  - Feedback: Hall sensor
+We specify setpoint (desired voltage depended on mutual arrangement of permanent and electro magnets) and get status of the process variable by Hall sensor (feedback value).
+
 ## Software
 ### MCU firmware (server)
 This version of maglev use TI-RTOS (v.2.16.01.14 at the moment) real-time operating system to manages all tasks:
