@@ -1,6 +1,8 @@
 # maglev-ti-rtos
 Example of PID controller usage applied to magnetic levitation.
 
+![maglev](/maglev.png)
+
 ## Overview
 Magnetic levitator on the base of Texas Instruments TIVA-C TM4C123GH6PM ARM Cortex-M4F MCU (EK-TM4C123GXL board). Regulation is performed by PID algorithm. Remote monitoring and control is provided by external Ethernet controller chip Microchip ENC28J60 (UDP commands).
 
