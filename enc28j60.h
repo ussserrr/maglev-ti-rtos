@@ -2,7 +2,7 @@
  * vim:sw=8:ts=8:si:et
  *
  * Title      : Microchip ENC28J60 Ethernet Interface Driver
- * Author     : Pascal Stang 
+ * Author     : Pascal Stang
  * Modified by: Guido Socher, Vladimir Ustyugov, Andrey Chufyrev
  * Copyright  : LGPL V2 (http://www.gnu.org/licenses/old-licenses/lgpl-2.0.html)
  * Based on the file from AVRlib library by Pascal Stang.
@@ -263,7 +263,7 @@
 //
 // max frame length which the conroller will accept:
 // (note: maximum ethernet frame length would be 1518)
-#define        MAX_FRAMELEN        1500        
+#define        MAX_FRAMELEN        1500
 
 
 // functions

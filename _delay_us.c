@@ -11,5 +11,5 @@
 
 
 void _delay_us(uint32_t us) {
-	ROM_SysCtlDelay(SysCtlClockGet()/3000000*us);
+    ROM_SysCtlDelay(SysCtlClockGet()/3000000*us);
 }
